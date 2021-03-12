@@ -1,5 +1,6 @@
 # Let me in
 Authorize AWS Security Group Ingress with My Current IP(let me in)
+[中文说明](./README-zh.md)
 
 # Why
 Exposing your service to public domain is very dangerous. 
