@@ -37,6 +37,6 @@ export AWS_ACCESS_KEY_ID=XXX AWS_SECRET_ACCESS_KEY=XXXX
 
 3. 开门
 
-进入“ http://host:1323/ping”，输入用户名和密码。
+进入 http://host:1323/ping ，输入用户名和密码。
 `letmein`将向安全组添加一个新规则，该规则将允许来自源IP的所有流量通过。
 因此，您应该在“安全组”内的主机上运行`letmein`。
