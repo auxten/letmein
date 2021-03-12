@@ -1,4 +1,4 @@
-module github.com/CovenantSQL/auth-aws-sg-dynamic-ip
+module github.com/auxten/letmein
 
 go 1.12
 

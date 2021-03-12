@@ -6,8 +6,8 @@ import (
 	"github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v3"
 
-	"github.com/CovenantSQL/auth-aws-sg-dynamic-ip/auth"
-	"github.com/CovenantSQL/auth-aws-sg-dynamic-ip/aws"
+	"github.com/auxten/letmein/auth"
+	"github.com/auxten/letmein/aws"
 )
 
 type Config struct {

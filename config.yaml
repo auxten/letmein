@@ -1,8 +1,8 @@
 Auth:
   UserPass:
     auxten: "123456"
-    laodouya: "xxxxxxx"
+    my_client: "xxxxxxx"
 AwsSg:
   Region: "cn-northwest-1"
   SgName: "Hadoop"
-  SgId:   "sg-0e0c5cd076cf1fb51"
+  SgId:   "sg-0e0c5cd07"

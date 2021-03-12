@@ -5,7 +5,7 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 
-	"github.com/CovenantSQL/auth-aws-sg-dynamic-ip/utils"
+	"github.com/auxten/letmein/utils"
 )
 
 func TestAuth(t *testing.T) {
