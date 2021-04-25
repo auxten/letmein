@@ -34,3 +34,8 @@ export AWS_ACCESS_KEY_ID=XXX AWS_SECRET_ACCESS_KEY=XXXX
 Access `http://the-server:1323/ping`, enter the username and password.
 The `letmein` will add a new rule to the Security Group that let all traffic from the source IP pass.
 So you should run `letmein` on the Host that inside the `Security Group`.
+
+4. Revoke key
+
+Access `http://the-server:1323/revoke/:ip`, ip is the string which you want revoke from aws sg.
+The `letmein` will delete a rule from the Security Group.
