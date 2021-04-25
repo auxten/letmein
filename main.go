@@ -14,7 +14,7 @@ import (
 const userKey = "user"
 
 func main() {
-	if len(os.Args) < 2{
+	if len(os.Args) < 2 {
 		fmt.Println("must specify config yaml as args")
 		os.Exit(1)
 	}
@@ -47,36 +47,35 @@ func main() {
 
 	// Routes
 	e.GET("/ping", renew)
-        e.GET("/revoke/:ip",revoke)
+	e.GET("/revoke/:ip", revoke)
 	// Start server
 	e.Logger.Fatal(e.Start(":1323"))
 }
 
 func revoke(c echo.Context) (err error) {
-        conf := &Config{}
-        ip := c.Param("ip")
-        err = conf.LoadConfig(os.Args[1])
-        if err != nil {
-                return c.String(http.StatusInternalServerError, err.Error())
-        }
-        err = conf.AwsSg.Init()
-        if err != nil {
-                return c.String(http.StatusInternalServerError, err.Error())
-        }
-        err = conf.AwsSg.RevokeSgIngress(ip)
-        if err != nil {
-                if !strings.Contains(err.Error(), "Duplicate") {
-                        return c.String(http.StatusInternalServerError, err.Error())
-                }
-        }
-        groupIds := make([]string, 1)
-        groupIds[0] = conf.AwsSg.SgId
-        sgs, err := conf.AwsSg.ListSg(groupIds)
-        if err != nil {
-                return c.String(http.StatusInternalServerError, err.Error())
-        }
-        return c.String(http.StatusOK, sgs[0].String())
-
+	conf := &Config{}
+	ip := c.Param("ip")
+	err = conf.LoadConfig(os.Args[1])
+	if err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+	err = conf.AwsSg.Init()
+	if err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+	err = conf.AwsSg.RevokeSgIngress(ip)
+	if err != nil {
+		if !strings.Contains(err.Error(), "Duplicate") {
+			return c.String(http.StatusInternalServerError, err.Error())
+		}
+	}
+	groupIds := make([]string, 1)
+	groupIds[0] = conf.AwsSg.SgId
+	sgs, err := conf.AwsSg.ListSg(groupIds)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+	return c.String(http.StatusOK, sgs[0].String())
 }
 
 // Handler
