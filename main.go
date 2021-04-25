@@ -65,7 +65,7 @@ func revoke(c echo.Context) (err error) {
 	}
 	err = conf.AwsSg.RevokeSgIngress(ip)
 	if err != nil {
-		if !strings.Contains(err.Error(), "Duplicate") {
+		if !strings.Contains(err.Error(), "IP not exist") {
 			return c.String(http.StatusInternalServerError, err.Error())
 		}
 	}
