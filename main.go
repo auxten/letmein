@@ -49,7 +49,7 @@ func main() {
 	e.GET("/ping", renew)
 	e.GET("/revoke/:ip", revoke)
 	// Start server
-	e.Logger.Fatal(e.Start(":1324"))
+	e.Logger.Fatal(e.Start(":1323"))
 }
 
 func revoke(c echo.Context) (err error) {
