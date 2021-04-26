@@ -71,14 +71,14 @@ func revoke(c echo.Context) (err error) {
 	}
 	for _, v := range sgs[0].IpPermissions {
 		if *(v.IpProtocol) == "-1" {
-			iphave := false
+			ipHave := false
 			for _, t := range v.IpRanges {
-				cidrips := strings.Replace(*(t.CidrIp), "/32", "", -1)
-				if cidrips == ip {
-					iphave = true
+				cidrIps := strings.Replace(*(t.CidrIp), "/32", "", -1)
+				if cidrIps == ip {
+					ipHave = true
 				}
 			}
-			if !iphave {
+			if !ipHave {
 				return c.String(http.StatusOK, "ip is not exist")
 			}
 		}
