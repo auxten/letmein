@@ -49,7 +49,7 @@ func main() {
 	e.GET("/ping", renew)
 	e.GET("/revoke/:ip", revoke)
 	// Start server
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(":1324"))
 }
 
 func revoke(c echo.Context) (err error) {
@@ -63,17 +63,50 @@ func revoke(c echo.Context) (err error) {
 	if err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
 	}
-	err = conf.AwsSg.RevokeSgIngress(ip)
-	if err != nil {
-		if !strings.Contains(err.Error(), "IP not exist") {
-			return c.String(http.StatusInternalServerError, err.Error())
-		}
-	}
+	//err = conf.AwsSg.RevokeSgIngress(ip)
+	//if err != nil {
+	//	if !strings.Contains(err.Error(), "IP not exist") {
+	//		return c.String(http.StatusInternalServerError, err.Error())
+	//	}
+	//}
 	groupIds := make([]string, 1)
 	groupIds[0] = conf.AwsSg.SgId
 	sgs, err := conf.AwsSg.ListSg(groupIds)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
+	}
+	for _, v := range sgs[0].IpPermissions {
+		fmt.Println(*(v.IpProtocol))
+		if *(v.IpProtocol) == "-1" {
+			iphive := false
+			iplens := len(v.IpRanges)
+			fmt.Println("lens is : ", iplens)
+			for _, t := range v.IpRanges {
+				cidrips := strings.Replace(*(t.CidrIp), "/32", "", -1)
+				fmt.Println("cidrips is : ", cidrips)
+				if cidrips == ip {
+					iphive = true
+				}
+			}
+			if !iphive {
+				fmt.Println("ip is not exist")
+				return c.String(http.StatusOK, "ip is not exist")
+			} else {
+				fmt.Println("ip is exist")
+			}
+			fmt.Println(" iphive is : ", iphive)
+			ips := v.IpRanges[0].CidrIp
+			fmt.Println("value is : ", *ips)
+			fmt.Printf("type is : %T \n", v.IpRanges[0].CidrIp)
+		} else {
+			fmt.Println("not in IpProtocol is : ", *(v.IpProtocol))
+		}
+	}
+	err = conf.AwsSg.RevokeSgIngress(ip)
+	if err != nil {
+		if !strings.Contains(err.Error(), "IP not exist") {
+			return c.String(http.StatusInternalServerError, err.Error())
+		}
 	}
 	return c.String(http.StatusOK, sgs[0].String())
 }
